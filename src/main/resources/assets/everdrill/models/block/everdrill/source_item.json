@@ -7,9 +7,9 @@
 		"2": "block/anvil",
 		"7": "block/polished_andesite",
 		"8": "create:block/mechanical_drill_top",
-		"10": "create:block/andesite_casing_very_short",
+		"10": "everdrill:block/andesite_casing_very_short",
 		"particle": "block/anvil",
-		"gearbox": "create:block/gearbox"
+		"gearbox": "everdrill:block/gearbox"
 	},
 	"elements": [
 		{
