@@ -14,6 +14,7 @@ public class EverdrillConfig {
 
     public static final ForgeConfigSpec.ConfigValue<Boolean> NATURAL_ONLY;
     public static final ForgeConfigSpec.ConfigValue<Boolean> TARGET_ALL_BLOCKS;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> ENABLE_ENCHANTMENT_GLINT;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ALLOW_LISTED_TAGS;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> DENY_LISTED_TAGS;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ALLOW_LISTED_BLOCKS;
@@ -40,6 +41,9 @@ public class EverdrillConfig {
 
         DENY_LISTED_BLOCKS = BUILDER.comment("Which blocks are NOT allowed to be mined more than once. Write the block with modid:block_name")
                 .defineListAllowEmpty("Denied blocks", Arrays.asList("minecraft:oak_log", "minecraft:acacia_log"), entry -> entry instanceof String);
+
+        ENABLE_ENCHANTMENT_GLINT = BUILDER.comment("True if you want the enchanted blocks to have a glint effect")
+                .define("Enable glint", true);
 
         BUILDER.pop();
         SPEC = BUILDER.build();

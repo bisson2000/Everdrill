@@ -1,5 +1,6 @@
 package com.bisson2000.everdrill.render;
 
+import com.bisson2000.everdrill.config.EverdrillConfig;
 import com.bisson2000.everdrill.entities.EverdrillBlockEntity;
 import com.jozufozu.flywheel.core.virtual.VirtualRenderWorld;
 import com.jozufozu.flywheel.util.transform.TransformStack;
@@ -47,22 +48,24 @@ public class ModDrillRenderer extends KineticBlockEntityRenderer<EverdrillBlockE
         if (be.getEnchantmentInstances().isEmpty()) return;
 
         poseStack.pushPose();
-        PoseStack.Pose pose = poseStack.last();
 
-        VertexConsumer consumer = new SheetedDecalTextureGenerator(buffer.getBuffer(CustomRenderType.GLINT), pose.pose(), pose.normal(), 0.007125f);
+        if (EverdrillConfig.ENABLE_ENCHANTMENT_GLINT.get()) {
+            PoseStack.Pose pose = poseStack.last();
+            VertexConsumer consumer = new SheetedDecalTextureGenerator(buffer.getBuffer(CustomRenderType.GLINT), pose.pose(), pose.normal(), 0.007125f);
+            this.context.getBlockRenderDispatcher().renderBatched(
+                    be.getBlockState(),
+                    be.getBlockPos(),
+                    be.getLevel(),
+                    poseStack,
+                    consumer,
+                    true,
+                    ModDrillRenderer.RANDOM,
+                    ModelData.EMPTY,
+                    null
+            );
+            renderRotatingBuffer(be, getRotatedModel(be, getRenderedBlockState(be)), poseStack, consumer, light);
+        }
 
-        this.context.getBlockRenderDispatcher().renderBatched(
-                be.getBlockState(),
-                be.getBlockPos(),
-                be.getLevel(),
-                poseStack,
-                consumer,
-                true,
-                ModDrillRenderer.RANDOM,
-                ModelData.EMPTY,
-                null
-        );
-        renderRotatingBuffer(be, getRotatedModel(be, getRenderedBlockState(be)), poseStack, consumer, light);
         super.renderSafe(be, partialTicks, poseStack, buffer, light, overlay);
 
         poseStack.popPose();
