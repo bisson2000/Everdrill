@@ -2,12 +2,21 @@ package com.bisson2000.everdrill.blocks;
 
 import com.bisson2000.everdrill.entities.EverdrillBlockEntity;
 import com.bisson2000.everdrill.entities.ModEntities;
+import com.simibubi.create.content.kinetics.base.DirectionalKineticBlock;
 import com.simibubi.create.content.kinetics.drill.DrillBlock;
 import com.simibubi.create.content.kinetics.drill.DrillBlockEntity;
+import com.simibubi.create.foundation.placement.IPlacementHelper;
+import com.simibubi.create.foundation.placement.PlacementHelpers;
+import com.simibubi.create.foundation.placement.PlacementOffset;
+import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -19,27 +28,22 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 public class EverdrillBlock extends DrillBlock {
+
+    private static final int enchantedPlacementHelperId = PlacementHelpers.register(new PlacementHelper());
 
     public EverdrillBlock(Properties properties) {
         super(properties);
     }
-
-    //@Override
-    //public @NotNull MutableComponent getName() {
-    //    return ModBlocks.INFINIDRILL_BLOCK.get().getName();
-    //}
-//
-    //@Override
-    //public @NotNull Item asItem() {
-    //    return ModBlocks.INFINIDRILL_BLOCK.asItem();
-    //}
 
     @Override
     public @NotNull BlockEntityType<? extends DrillBlockEntity> getBlockEntityType() {
@@ -81,6 +85,18 @@ public class EverdrillBlock extends DrillBlock {
         return stack;
     }
 
+    @Override
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult ray) {
+        ItemStack heldItem = player.getItemInHand(hand);
+        IPlacementHelper placementHelper = PlacementHelpers.get(enchantedPlacementHelperId);
+        if (!player.isShiftKeyDown() && player.mayBuild() && placementHelper.matchesItem(heldItem)) {
+            placementHelper.getOffset(player, world, state, pos, ray).placeInWorld(world, (BlockItem)heldItem.getItem(), player, hand, ray);
+            return InteractionResult.SUCCESS;
+        } else {
+            return InteractionResult.PASS;
+        }
+    }
+
     public boolean canApplyEnchantment(Enchantment enchantment) {
         if (enchantment == Enchantments.UNBREAKING || enchantment == Enchantments.MENDING || enchantment == Enchantments.SILK_TOUCH) {
             return false;
@@ -89,9 +105,39 @@ public class EverdrillBlock extends DrillBlock {
         return enchantment.category == EnchantmentCategory.DIGGER;
     }
 
-    @Override
-    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
-        super.entityInside(state, worldIn, pos, entityIn);
+    @MethodsReturnNonnullByDefault
+    private static class PlacementHelper implements IPlacementHelper {
+        private PlacementHelper() {
+        }
+
+        public Predicate<ItemStack> getItemPredicate() {
+            BlockEntry<EverdrillBlock> blockEntry = ModBlocks.EVERDRILL_BLOCK;
+            Objects.requireNonNull(blockEntry);
+            return blockEntry::isIn;
+        }
+
+        public Predicate<BlockState> getStatePredicate() {
+            BlockEntry<EverdrillBlock> blockEntry = ModBlocks.EVERDRILL_BLOCK;
+            Objects.requireNonNull(blockEntry);
+            return blockEntry::has;
+        }
+
+        public PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos, BlockHitResult ray) {
+            List<Direction> directions = IPlacementHelper.orderedByDistanceExceptAxis(
+                    pos,
+                    ray.getLocation(),
+                    state.getValue(DirectionalKineticBlock.FACING).getAxis(),
+                    (dir) -> world.getBlockState(pos.relative(dir)).canBeReplaced());
+
+            if (directions.isEmpty()) {
+                return PlacementOffset.fail();
+            }
+
+            return PlacementOffset.success(
+                    pos.relative(directions.get(0)),
+                    (s) -> s.setValue(DirectionalKineticBlock.FACING, state.getValue(DirectionalKineticBlock.FACING))
+            );
+        }
     }
 
 
