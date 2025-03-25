@@ -24,7 +24,7 @@ public class ModBlocks {
                 });
             })
             .transform(BlockStressDefaults.setImpact(4.0))
-            .onRegister(AllMovementBehaviours.movementBehaviour(new DrillMovementBehaviour()))
+            .onRegister(AllMovementBehaviours.movementBehaviour(new EverdrillMovementBehavior()))
             .item()
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .model((c, p) -> {

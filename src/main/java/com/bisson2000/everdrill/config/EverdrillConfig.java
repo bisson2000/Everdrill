@@ -12,25 +12,28 @@ public class EverdrillConfig {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.ConfigValue<Boolean> BLOCK_CHARGES_IS_INFINITE;
-    public static final ForgeConfigSpec.ConfigValue<Integer> BLOCK_CHARGES;
-    public static final ForgeConfigSpec.ConfigValue<Boolean> AUTO_ORE_SEARCH;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> NATURAL_ONLY;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> TARGET_ALL_BLOCKS;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ALLOW_LISTED_TAGS;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> DENY_LISTED_TAGS;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ALLOW_LISTED_BLOCKS;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> DENY_LISTED_BLOCKS;
     private static HashSet<Block> TARGETED_BLOCKS = new HashSet<>();
-    private static HashSet<Item> TARGETED_BLOCKS_NAMES = new HashSet<>();
 
     static {
-        BUILDER.push("Configs for Re-mine");
+        BUILDER.push("Configs for Everdrill");
 
-        BLOCK_CHARGES_IS_INFINITE = BUILDER.comment("Can blocks be harvested infinitely")
-                .define("Block charges is infinite", false);
+        NATURAL_ONLY = BUILDER.comment("True if only naturally generated blocks are valid")
+                .define("Natural only", true);
 
-        BLOCK_CHARGES = BUILDER.comment("How many times a block can be harvested before having it break")
-                .defineInRange("Charges", 2, 0, Integer.MAX_VALUE);
+        TARGET_ALL_BLOCKS = BUILDER.comment("True if you want to target all blocks")
+                .define("Target all", false);
 
-        AUTO_ORE_SEARCH = BUILDER.comment("Search automatically for ores")
-                .define("Auto ore search", true);
+        ALLOW_LISTED_TAGS = BUILDER.comment("Which block tags are allowed to be mined more than once. Write the tag with modid:tag_name")
+                .defineListAllowEmpty("Allowed tags", Arrays.asList("forge:ores"), entry -> entry instanceof String);
+
+        DENY_LISTED_TAGS = BUILDER.comment("Which block tags are NOT allowed to be mined more than once. Write the tag with modid:tag_name")
+                .defineListAllowEmpty("Denied tags", Arrays.asList(), entry -> entry instanceof String);
 
         ALLOW_LISTED_BLOCKS = BUILDER.comment("Which blocks are allowed to be mined more than once. Write the block with modid:block_name")
                 .defineListAllowEmpty("Allowed blocks", Arrays.asList("minecraft:iron_ore", "minecraft:deepslate_iron_ore"), entry -> entry instanceof String);
@@ -44,7 +47,6 @@ public class EverdrillConfig {
 
     public static void SetTargetedBlocks(HashSet<Block> set) {
         TARGETED_BLOCKS = set;
-        TARGETED_BLOCKS_NAMES = set.stream().map(Block::asItem).collect(Collectors.toCollection(HashSet::new));
     }
 
     public static Set<Block> getTargetedBlocks() {
@@ -53,10 +55,6 @@ public class EverdrillConfig {
 
     public static boolean isTargeted(Block block) {
         return TARGETED_BLOCKS.contains(block);
-    }
-
-    public static boolean isTargeted(Item item) {
-        return TARGETED_BLOCKS_NAMES.contains(item);
     }
 
 }

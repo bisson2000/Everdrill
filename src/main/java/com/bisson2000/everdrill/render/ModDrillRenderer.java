@@ -27,7 +27,7 @@ import net.minecraftforge.client.model.data.ModelData;
 
 public class ModDrillRenderer extends KineticBlockEntityRenderer<EverdrillBlockEntity> {
 
-    private RandomSource RANDOM = RandomSource.create();
+    private static RandomSource RANDOM = RandomSource.create();
     private BlockEntityRendererProvider.Context context;
 
     public ModDrillRenderer(BlockEntityRendererProvider.Context context) {
@@ -58,7 +58,7 @@ public class ModDrillRenderer extends KineticBlockEntityRenderer<EverdrillBlockE
                 poseStack,
                 consumer,
                 true,
-                this.RANDOM,
+                ModDrillRenderer.RANDOM,
                 ModelData.EMPTY,
                 null
         );
@@ -68,7 +68,7 @@ public class ModDrillRenderer extends KineticBlockEntityRenderer<EverdrillBlockE
         poseStack.popPose();
     }
 
-    public void renderInContraption(MovementContext movementContext, VirtualRenderWorld renderWorld, ContraptionMatrices matrices, MultiBufferSource buffer) {
+    public static void renderInContraption(MovementContext movementContext, VirtualRenderWorld renderWorld, ContraptionMatrices matrices, MultiBufferSource buffer) {
         BlockState state = movementContext.state;
         SuperByteBuffer superBuffer = CachedBufferer.partial(AllPartialModels.DRILL_HEAD, state);
         Direction facing = (Direction)state.getValue(DrillBlock.FACING);
@@ -110,7 +110,7 @@ public class ModDrillRenderer extends KineticBlockEntityRenderer<EverdrillBlockE
                 matrices.getModelViewProjection(),
                 consumer,
                 true,
-                RANDOM,
+                ModDrillRenderer.RANDOM,
                 ModelData.EMPTY,
                 null
         );

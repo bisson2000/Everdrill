@@ -2,6 +2,7 @@ package com.bisson2000.everdrill.util;
 
 import com.bisson2000.everdrill.capability.NaturalBlockTracker;
 import com.bisson2000.everdrill.capability.NaturalBlockTrackerCapability;
+import com.bisson2000.everdrill.config.EverdrillConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
@@ -59,7 +60,7 @@ public class BlockBreakingUtil {
 
                 BlockState blockstate = world.getBlockState(pos.below());
                 if (blockstate.blocksMotion() || blockstate.liquid()) {
-                    customSetBlockCondition(world, pos, Blocks.WATER.defaultBlockState()); // Modified
+                    customSetBlockCondition(world, pos, state, Blocks.WATER.defaultBlockState()); // Modified
                 }
 
                 return;
@@ -68,15 +69,20 @@ public class BlockBreakingUtil {
             state.spawnAfterBreak((ServerLevel)world, pos, ItemStack.EMPTY, true);
         }
 
-        customSetBlockCondition(world, pos, fluidState.createLegacyBlock()); // Modified
+        customSetBlockCondition(world, pos, state, fluidState.createLegacyBlock()); // Modified
     }
 
-    private static void customSetBlockCondition(Level world, BlockPos pos, BlockState newBlockState) {
+    private static void customSetBlockCondition(Level world, BlockPos pos, BlockState oldBlockState, BlockState newBlockState) {
         if (world instanceof ServerLevel serverLevel && NaturalBlockTrackerCapability.getNaturalBlockTracker(serverLevel.getChunkAt(pos)).isPresent()) {
             NaturalBlockTrackerCapability.getNaturalBlockTracker(serverLevel.getChunkAt(pos)).ifPresent(iNaturalBlockTracker -> {
-                if ((iNaturalBlockTracker instanceof NaturalBlockTracker naturalBlockTracker) && naturalBlockTracker.isNatural(pos)) {
-                    // Do not destroy if we have a natural block
-                    return;
+                if ((iNaturalBlockTracker instanceof NaturalBlockTracker naturalBlockTracker)) {
+                    if (EverdrillConfig.isTargeted(oldBlockState.getBlock()) || EverdrillConfig.TARGET_ALL_BLOCKS.get()) {
+                        // Do not destroy if we have a targeted block
+                        if ((EverdrillConfig.NATURAL_ONLY.get() && naturalBlockTracker.isNatural(pos)) || !EverdrillConfig.NATURAL_ONLY.get()) {
+                            return;
+                        }
+
+                    }
                 }
 
                 world.setBlockAndUpdate(pos, newBlockState);

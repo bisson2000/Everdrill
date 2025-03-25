@@ -5,6 +5,8 @@ import com.bisson2000.everdrill.config.EverdrillConfig;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.tags.TagManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -12,6 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITagManager;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -26,34 +29,27 @@ public class TagEventManager {
             return;
         }
 
-        final Set<String> whitelist = new HashSet<>(EverdrillConfig.ALLOW_LISTED_BLOCKS.get());
-        final Set<String> blacklist = new HashSet<>(EverdrillConfig.DENY_LISTED_BLOCKS.get());
+        final HashSet<String> ALLOW_LISTED_BLOCKS_SET = new HashSet<>(EverdrillConfig.ALLOW_LISTED_BLOCKS.get());
+        final HashSet<String> DENY_LISTED_BLOCKS_SET = new HashSet<>(EverdrillConfig.DENY_LISTED_BLOCKS.get());
+        final HashSet<String> ALLOW_LISTED_TAGS_SET = new HashSet<>(EverdrillConfig.ALLOW_LISTED_TAGS.get());
+        final HashSet<String> DENY_LISTED_TAGS_SET = new HashSet<>(EverdrillConfig.DENY_LISTED_TAGS.get());
 
         HashSet<Block> targetList = new HashSet<>();
-        ITagManager<Block> tagManager = ForgeRegistries.BLOCKS.tags();
-
-        // Search by #forge:ore tag
-        if (EverdrillConfig.AUTO_ORE_SEARCH.get() && tagManager != null) {
-            tagManager.getTag(BlockTags.create(new ResourceLocation("forge", "ores"))).forEach(b -> {
-                b.defaultBlockState().getBlockHolder().unwrapKey().ifPresent(k -> {
-                    String name = k.location().toString();
-                    if (!blacklist.contains(name)) {
-                        targetList.add(b);
-                    }
-                });
-            });
-        }
 
         // Search through all blocks
         targetList.addAll(
                 ForgeRegistries.BLOCKS.getEntries().stream().filter(entry -> {
                     ResourceKey<Block> resourceKey = entry.getKey();
                     String name = resourceKey.location().toString();
-                    boolean match = whitelist.contains(name);
-                    if (EverdrillConfig.AUTO_ORE_SEARCH.get()) {
-                        match = match || name.endsWith("_ore");
-                    }
-                    match = match && !blacklist.contains(name);
+                    Set<String> blockTags = entry.getValue().defaultBlockState().getTags().map(t -> t.location().toString()).collect(Collectors.toSet());
+
+                    // Allow
+                    boolean match = ALLOW_LISTED_BLOCKS_SET.contains(name);
+                    match = match || !Collections.disjoint(ALLOW_LISTED_TAGS_SET, blockTags); // Contains any tag
+
+                    // Deny
+                    match = match && !DENY_LISTED_BLOCKS_SET.contains(name);
+                    match = match && Collections.disjoint(DENY_LISTED_TAGS_SET, blockTags); // Contains no tag
 
                     return match;
                 }).map(Map.Entry::getValue).collect(Collectors.toCollection(HashSet::new))

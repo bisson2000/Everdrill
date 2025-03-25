@@ -4,7 +4,6 @@ import com.bisson2000.everdrill.blocks.ModBlocks;
 import com.bisson2000.everdrill.command.CommandHandler;
 import com.bisson2000.everdrill.config.EverdrillConfig;
 import com.bisson2000.everdrill.entities.ModEntities;
-import com.bisson2000.everdrill.loot.ModLootModifiers;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,9 +42,6 @@ public class Everdrill
 
         ModBlocks.register(); // Force static variables to be initialized
         ModEntities.register(); // Force static variables to be initialized
-
-        // Register the Deferred Register to the mod event bus so blocks get registered
-        ModLootModifiers.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
