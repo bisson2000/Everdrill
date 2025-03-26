@@ -2,6 +2,13 @@
 Where can I find and download the mod?
 =======
 
+
+Special Credits
+=======
+ - Credits to the creators of the [Create](https://www.curseforge.com/minecraft/mc-mods/create) mod.
+ - Credits to the creators of the [Create: Enchantable Machinery](https://www.curseforge.com/minecraft/mc-mods/create-enchantable-machinery) mod, from which I took a lot of insipration from to make the drill enchantable.
+
+
 DEV Installation information
 =======
 
