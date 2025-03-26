@@ -1,10 +1,12 @@
-// 1.20.1	2025-03-23T21:38:15.108191	Registrate Provider for everdrill [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.20.1	2025-03-26T06:49:13.0739723	Registrate Provider for everdrill [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 6755c3815f52d03cf3e3e86e4f1805440bd05d14 assets/everdrill/blockstates/everdrill.json
 23140b34579ec4016a73a6cbeec7ecc7132a74e4 assets/everdrill/lang/en_ud.json
 423745afe87ec2a11aa29007994c7756d5889e45 assets/everdrill/lang/en_us.json
 c53f99bb6b9d02166d31c16d92aac19835a30140 assets/everdrill/models/block/everdrill/head.json
-5285a20c8ba684107d8deab96ad8b9b5f2f42edd assets/everdrill/models/item/everdrill.json
+4d23e3f3056d71317582f68051e0d414b3bd92ee assets/everdrill/models/item/everdrill.json
 3a5cff03e99e2d7a4373748e72bcc2b871c196b1 data/create/tags/items/contraption_controlled.json
+7c205c1bb82162e7cbfe4dfc949257c3a6e8729a data/everdrill/advancements/recipes/misc/everdrill.json
 8d639cbbaea58291dbcd90acda515bdacca26a84 data/everdrill/loot_tables/blocks/everdrill.json
+81fd983fef5d54dbb68dea2bb06501aebd32c8b6 data/everdrill/recipes/everdrill.json
 3a5cff03e99e2d7a4373748e72bcc2b871c196b1 data/minecraft/tags/blocks/mineable/axe.json
 3a5cff03e99e2d7a4373748e72bcc2b871c196b1 data/minecraft/tags/blocks/mineable/pickaxe.json

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "M": {
+      "item": "create:mechanical_drill"
+    }
+  },
+  "pattern": [
+    "LDL",
+    "DMD",
+    "LDL"
+  ],
+  "result": {
+    "item": "everdrill:everdrill"
+  },
+  "show_notification": true
+}
