@@ -102,7 +102,10 @@ public class NaturalBlockTracker implements INaturalBlockTracker, INBTSerializab
 
     @Override
     public void deserializeNBT(CompoundTag compoundTag) {
-        // TODO: deserialization edge case when height changes
-        this.artificalBlocks = compoundTag.getByteArray("artificalBlocks");
+        byte[] deserialized = compoundTag.getByteArray("artificalBlocks");
+        // edge case when height changes. Should almost never happen
+        if (deserialized.length == this.artificalBlocks.length) {
+            this.artificalBlocks = deserialized;
+        }
     }
 }
