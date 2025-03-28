@@ -23,11 +23,16 @@ import org.slf4j.Logger;
 @Mod(Everdrill.MOD_ID)
 public class Everdrill
 {
+
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "everdrill";
     public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(Everdrill.MOD_ID);
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
+
+    public Everdrill() {
+        this(FMLJavaModLoadingContext.get());
+    }
 
 
     public Everdrill(FMLJavaModLoadingContext context)

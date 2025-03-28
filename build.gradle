@@ -169,6 +169,11 @@ repositories {
         url = "https://modmaven.dev"
     }
 
+    // Modernfix
+    maven {
+        url "https://cursemaven.com"
+    }
+
     // mixins
     maven {
         url = 'https://repo.spongepowered.org/maven'
@@ -214,6 +219,9 @@ dependencies {
 
     // Registrate jarjar
     //jarJar(group: 'com.tterrag.registrate', name: 'Registrate', version: "[MC1.19.3,MC1.20)")
+
+    // modernfix
+    implementation fg.deobf("curse.maven:modernfix-790626:6125143")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

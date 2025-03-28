@@ -6,11 +6,6 @@
   "client": [
   ],
   "mixins": [
-    "WrappedServerLevel",
-    "WrappedBlockItem",
-    "WrappedItem",
-    "WrappedItemStack",
-    "WrappedEnchantment"
   ],
   "injectors": {
     "defaultRequire": 1

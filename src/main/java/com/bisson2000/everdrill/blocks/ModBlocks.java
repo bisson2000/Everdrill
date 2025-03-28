@@ -2,6 +2,7 @@ package com.bisson2000.everdrill.blocks;
 
 import com.bisson2000.everdrill.Everdrill;
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllCreativeModeTabs;
 import com.simibubi.create.AllMovementBehaviours;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
@@ -15,6 +16,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -52,6 +54,7 @@ public class ModBlocks {
                 p.withExistingParent(c.getName(), itemLocation);
                 p.withExistingParent("block/" + c.getName() + "/head", headLocation);
             })
+            .tab(AllCreativeModeTabs.BASE_CREATIVE_TAB.getKey()) // Necessary otherwise modernfix will hide the block
             .build()
             .register();
 
