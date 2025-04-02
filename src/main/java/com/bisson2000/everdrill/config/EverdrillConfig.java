@@ -29,7 +29,7 @@ public class EverdrillConfig {
                 .define("Natural only", true);
 
         USE_INTERNAL_BUFFER = BUILDER.comment("True if the mined blocks should be stored within the everdrill's internal buffer. " +
-                        "The items can be extracted with hoppers or other pipes. Good tu use if you expect to have multiple drills used and you want to avoid lag.")
+                        "The items can be extracted with hoppers or other pipes. Good to use if you expect to have multiple drills used and you want to avoid lag.")
                 .define("Use internal buffer", false);
 
         TARGET_ALL_BLOCKS = BUILDER.comment("True if you want to target all blocks")
