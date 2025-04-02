@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
 
-// Credits to https://www.curseforge.com/minecraft/mc-mods/create-enchantable-machineryhttps://www.curseforge.com/minecraft/mc-mods/create-enchantable-machinery
+// Credits to https://www.curseforge.com/minecraft/mc-mods/create-enchantable-machinery
 
 public class EverdrillMovementBehavior extends DrillMovementBehaviour {
 
@@ -35,16 +35,7 @@ public class EverdrillMovementBehavior extends DrillMovementBehaviour {
         breakingItem.setTag(context.blockEntityData);
 
         BlockBreakingUtil.destroyBlockAs(level, breakingPos, (Player)null, breakingItem, 1.0F, (stack) -> {
-            if (!stack.isEmpty()) {
-                if (level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
-                    if (!level.restoringBlockSnapshots) {
-                        ItemEntity itementity = new ItemEntity(level, vec.x, vec.y, vec.z, stack);
-                        itementity.setDefaultPickUpDelay();
-                        itementity.setDeltaMovement(Vec3.ZERO);
-                        level.addFreshEntity(itementity);
-                    }
-                }
-            }
+            this.dropItem(context, stack);
         });
     }
 

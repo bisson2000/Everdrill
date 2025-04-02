@@ -222,6 +222,9 @@ dependencies {
 
     // modernfix
     //implementation fg.deobf("curse.maven:modernfix-790626:6125143")
+
+    // Jade
+    //implementation fg.deobf("curse.maven:jade-324717:6106101")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
