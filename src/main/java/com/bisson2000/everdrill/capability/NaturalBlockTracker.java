@@ -51,6 +51,10 @@ public class NaturalBlockTracker implements INaturalBlockTracker, INBTSerializab
 
     public boolean isNatural(BlockPos pos) {
         int index = getIndex(pos);
+        if (index < 0) { // Sometime some blocks get generated outside. These will always be natural
+            return true;
+        }
+
         int byteIndex = index >> 3;     // Which byte in the Byte[] to modify, div 8
         int bitOffset = index & 0x7;    // Which bit within the byte to modify, mod 8
 
@@ -59,6 +63,10 @@ public class NaturalBlockTracker implements INaturalBlockTracker, INBTSerializab
 
     public void markNatural(BlockPos pos) {
         int index = getIndex(pos);
+        if (index < 0) { // Sometime some blocks get generated outside. These will always be natural
+            return;
+        }
+
         int byteIndex = index >> 3;     // Which byte in the Byte[] to modify, div 8
         int bitOffset = index & 0x7;    // Which bit within the byte to modify, mod 8
 
@@ -70,6 +78,10 @@ public class NaturalBlockTracker implements INaturalBlockTracker, INBTSerializab
 
     public void markArtifical(BlockPos pos) {
         int index = getIndex(pos);
+        if (index < 0) { // Sometime some blocks get generated outside. These will always be natural
+            return;
+        }
+
         int byteIndex = index >> 3;     // Which byte in the Byte[] to modify, div 8
         int bitOffset = index & 0x7;    // Which bit within the byte to modify, mod 8
 
