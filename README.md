@@ -1,7 +1,14 @@
 
+Create: Everdrill
+=======
+<a href="https://www.curseforge.com/minecraft/mc-mods/create-everdrill" target="_blank"><img src="https://cf.way2muchnoise.eu/NUMBERHERE.svg?badge_style=flat"/></a><a href="https://www.curseforge.com/minecraft/mc-mods/create-everdrill" target="_blank"><img src="http://cf.way2muchnoise.eu/versions/NUMBERHERE.svg?badge_style=flat" /></a>
+
+![logo](logo.png)
+
+
 Where can I find and download the mod?
 =======
-
+You can find the mod on CurseForge: https://legacy.curseforge.com/minecraft/mc-mods/create-everdrill
 
 Special Credits
 =======
