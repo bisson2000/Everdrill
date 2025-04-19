@@ -1,7 +1,7 @@
 
 Create: Everdrill
 =======
-<a href="https://www.curseforge.com/minecraft/mc-mods/create-everdrill" target="_blank"><img src="https://cf.way2muchnoise.eu/NUMBERHERE.svg?badge_style=flat"/></a><a href="https://www.curseforge.com/minecraft/mc-mods/create-everdrill" target="_blank"><img src="http://cf.way2muchnoise.eu/versions/NUMBERHERE.svg?badge_style=flat" /></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/create-everdrill" target="_blank"><img src="https://cf.way2muchnoise.eu/1246046.svg?badge_style=flat"/></a><a href="https://www.curseforge.com/minecraft/mc-mods/create-everdrill" target="_blank"><img src="http://cf.way2muchnoise.eu/versions/1246046.svg?badge_style=flat" /></a>
 
 ![logo](logo.png)
 
@@ -9,6 +9,17 @@ Create: Everdrill
 Where can I find and download the mod?
 =======
 You can find the mod on CurseForge: https://legacy.curseforge.com/minecraft/mc-mods/create-everdrill
+
+Dependencies:
+=======
+This mod depends on
+- https://www.curseforge.com/minecraft/mc-mods/create
+
+
+Choosing the version that is right for you
+=======
+For Create versions below 6.0, use the 1.0.x release\
+For Create versions equal or above 6.0.0, use the 1.1.x release
 
 Special Credits
 =======
