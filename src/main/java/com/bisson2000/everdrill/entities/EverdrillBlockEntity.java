@@ -3,9 +3,9 @@ package com.bisson2000.everdrill.entities;
 import com.bisson2000.everdrill.config.EverdrillConfig;
 import com.bisson2000.everdrill.util.BlockBreakingUtil;
 import com.simibubi.create.content.kinetics.drill.DrillBlockEntity;
-import com.simibubi.create.foundation.utility.Lang;
-import com.simibubi.create.foundation.utility.VecHelper;
+import com.simibubi.create.foundation.utility.CreateLang;
 import joptsimple.internal.Strings;
+import net.createmod.catnip.math.VecHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -78,7 +78,7 @@ public class EverdrillBlockEntity extends DrillBlockEntity {
         super.addToGoggleTooltip(tooltip, isPlayerSneaking);
         for (EnchantmentInstance enchantmentInstance : getEnchantmentInstances()) {
             int level = enchantmentInstance.level;
-            Lang.text(Strings.repeat(' ', 0))
+            CreateLang.text(Strings.repeat(' ', 0))
                     .add(enchantmentInstance.enchantment.getFullname(level).copy())
                     .forGoggles(tooltip);
         }
@@ -120,7 +120,7 @@ public class EverdrillBlockEntity extends DrillBlockEntity {
 
     @Override
     protected void read(CompoundTag compound, boolean clientPacket) {
-        this.enchantmentTags = compound.getList(ItemStack.TAG_ENCH, Tag.TAG_COMPOUND);
+        this.enchantmentTags = readEnchantments(compound);
         this.inventory.deserializeNBT(compound.getCompound("Inventory"));
         super.read(compound, clientPacket);
     }
@@ -162,5 +162,9 @@ public class EverdrillBlockEntity extends DrillBlockEntity {
         // TODO: Stop the drill if nothing can fit
         //List<ItemStack> drops = Block.getDrops(stateToBreak, (ServerLevel) this.level, this.breakingPos, this, null, getEquivalentBreakingItem());
         return super.canBreak(stateToBreak, blockHardness);
+    }
+
+    public static ListTag readEnchantments(CompoundTag compound) {
+        return compound.getList(ItemStack.TAG_ENCH, Tag.TAG_COMPOUND);
     }
 }

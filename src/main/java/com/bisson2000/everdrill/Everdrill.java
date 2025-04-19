@@ -2,10 +2,14 @@ package com.bisson2000.everdrill;
 
 import com.bisson2000.everdrill.blocks.ModBlocks;
 import com.bisson2000.everdrill.command.CommandHandler;
+import com.bisson2000.everdrill.config.CustomStress;
 import com.bisson2000.everdrill.config.EverdrillConfig;
 import com.bisson2000.everdrill.entities.ModEntities;
 import com.mojang.logging.LogUtils;
+import com.simibubi.create.api.stress.BlockStressValues;
 import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.simibubi.create.infrastructure.config.CServer;
+import com.simibubi.create.infrastructure.config.CStress;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -34,7 +38,6 @@ public class Everdrill
         this(FMLJavaModLoadingContext.get());
     }
 
-
     public Everdrill(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
@@ -44,6 +47,9 @@ public class Everdrill
 
         // Registration
         Everdrill.REGISTRATE.registerEventListeners(modEventBus);
+
+        // CustomStress
+        BlockStressValues.IMPACTS.registerProvider(CustomStress::getImpact);
 
         ModBlocks.register(); // Force static variables to be initialized
         ModEntities.register(); // Force static variables to be initialized
