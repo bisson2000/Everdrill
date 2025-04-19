@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "D": {
-      "tag": "minecraft:diamond_ores"
+      "item": "minecraft:diamond"
     },
     "L": {
-      "tag": "minecraft:lapis_ores"
+      "item": "minecraft:lapis_lazuli"
     },
     "M": {
       "item": "create:mechanical_drill"

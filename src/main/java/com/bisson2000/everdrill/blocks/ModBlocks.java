@@ -22,6 +22,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.MapColor;
 
@@ -45,8 +46,8 @@ public class ModBlocks {
             .onRegister(movementBehaviour(new EverdrillMovementBehavior()))
             .recipe((c, p) -> {
                 ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get())
-                        .define('L', ItemTags.LAPIS_ORES)
-                        .define('D', ItemTags.DIAMOND_ORES)
+                        .define('L', Items.LAPIS_LAZULI)
+                        .define('D', Items.DIAMOND)
                         .define('M', AllBlocks.MECHANICAL_DRILL.asItem())
                         .pattern("LDL")
                         .pattern("DMD")
