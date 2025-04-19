@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 
 // MIT License
 //
-// Copyright (c) 2024 bisson2000
+// Copyright (c) 2024 Mrbysco
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal

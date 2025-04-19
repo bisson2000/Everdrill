@@ -37,8 +37,8 @@ public class ModBlocks {
             .onRegister(AllMovementBehaviours.movementBehaviour(new EverdrillMovementBehavior()))
             .recipe((c, p) -> {
                 ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get())
-                        .define('L', ItemTags.LAPIS_ORES)
-                        .define('D', ItemTags.DIAMOND_ORES)
+                        .define('L', Items.LAPIS_LAZULI)
+                        .define('D', Items.DIAMOND)
                         .define('M', AllBlocks.MECHANICAL_DRILL.asItem())
                         .pattern("LDL")
                         .pattern("DMD")
