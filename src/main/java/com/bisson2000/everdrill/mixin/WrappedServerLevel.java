@@ -8,6 +8,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelWriter;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * Mixin for ServerLevel
@@ -15,43 +18,26 @@ import org.spongepowered.asm.mixin.*;
  * Inspired from <a href="https://github.com/SpongePowered/Mixin/wiki/Introduction-to-Mixins---Overwriting-Methods">This link</a>
  *
  * */
-@Mixin(Level.class) //
-@Implements(@Interface(iface = LevelWriter.class, prefix = "id$"))
-public abstract class WrappedServerLevel implements LevelWriter {
+@Mixin(Level.class)
+public class WrappedServerLevel {
 
-    @Shadow
-    public abstract boolean setBlock(BlockPos targetPos, BlockState newState, int unkown1, int unkown2);
+    @Inject(method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z", at = @At("HEAD"))
+    private void everdrill$setBlock(BlockPos pos, BlockState newState, int unkown1, int unkown2, CallbackInfoReturnable<Boolean> cir) {
+        if (!((Object) this instanceof ServerLevel serverLevel)) return;
 
-    /**
-     * This method will become our intrinsic proxy method, it
-     * calls the original (shadowed) version of the accessor.
-     * It uses the displace parameter to avoid re-entrance when
-     * the method would otherwise be overwritten.
-     */
-    @Intrinsic(displace = true)
-    public boolean id$setBlock(BlockPos targetPos, BlockState newState, int unkown1, int unkown2) {
+        BlockState oldState = serverLevel.getBlockState(pos);
 
-
-        Level level = (Level)((Object)this);
-        final BlockState oldState = level.getBlockState(targetPos);
-
-        if (!(level instanceof ServerLevel serverLevel)) {
-            return this.setBlock(targetPos, newState, unkown1, unkown2);
-        }
-
-        if (didBlockChange(oldState, newState)) {
-            NaturalBlockTrackerCapability.getNaturalBlockTracker(serverLevel.getChunkAt(targetPos)).ifPresent(iNaturalBlockTracker -> {
-                if (!(iNaturalBlockTracker instanceof NaturalBlockTracker naturalBlockTracker)) return;
-
-                naturalBlockTracker.markArtifical(targetPos);
+        if (everdrill$didBlockChange(oldState, newState)) {
+            NaturalBlockTrackerCapability.getNaturalBlockTracker(serverLevel.getChunkAt(pos)).ifPresent(tracker -> {
+                if (tracker instanceof NaturalBlockTracker naturalTracker) {
+                    naturalTracker.markArtifical(pos);
+                }
             });
         }
-
-        return this.setBlock(targetPos, newState, unkown1, unkown2);
     }
 
-    private static boolean didBlockChange(BlockState oldBlockState, BlockState newBlockState) {
-        //return ReMineConfig.isTargeted(oldBlockState.getBlock()) && newBlockState.getBlock() != oldBlockState.getBlock();
-        return newBlockState.getBlock() != oldBlockState.getBlock();
+    @Unique
+    private static boolean everdrill$didBlockChange(BlockState oldState, BlockState newState) {
+        return oldState.getBlock() != newState.getBlock();
     }
 }
