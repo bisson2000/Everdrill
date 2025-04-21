@@ -8,8 +8,13 @@ import com.bisson2000.everdrill.entities.ModEntities;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.api.stress.BlockStressValues;
 import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.simibubi.create.foundation.item.ItemDescription;
+import com.simibubi.create.foundation.item.KineticStats;
+import com.simibubi.create.foundation.item.TooltipHelper;
+import com.simibubi.create.foundation.item.TooltipModifier;
 import com.simibubi.create.infrastructure.config.CServer;
 import com.simibubi.create.infrastructure.config.CStress;
+import net.createmod.catnip.lang.FontHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -30,9 +35,17 @@ public class Everdrill
 
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "everdrill";
-    public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(Everdrill.MOD_ID);
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
+
+    // Registrate
+    public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(Everdrill.MOD_ID);
+    static {
+        REGISTRATE.setTooltipModifierFactory(item -> {
+            return new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
+                    .andThen(TooltipModifier.mapNull(KineticStats.create(item)));
+        });
+    }
 
     public Everdrill() {
         this(FMLJavaModLoadingContext.get());
